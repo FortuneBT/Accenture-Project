@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
 from multiapp import MultiApp
-from apps import home, description,team # import your app modules here
+from apps import home, description,team,revenue # import your app modules here
 
 
 st.set_page_config(layout="wide")
@@ -16,6 +16,7 @@ part_one = st.container()
 
 # Add all your application here
 app.add_app("Home", home.app)
+app.add_app("Revenue", revenue.app)
 app.add_app("Description", description.app)
 app.add_app("Team", team.app)
 

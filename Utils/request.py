@@ -290,18 +290,23 @@ class Request():
 
     def revenue_city_year(self,my_city:str, my_year:int) -> float:     
 
-        begin = str(my_year) + "-01-01"
-       
-        end = str(my_year) + "-12-31"
- 
-        mask = (self.big_data["creation_date_order"] >=  begin) & (self.big_data["creation_date_order"] <= end)
-        year = self.big_data.loc[mask]
+        my_year = 2019
 
-        my_restaurant = year[year["city"] == my_city]
-        
-        newData = my_restaurant.loc[:,["city","real_price"]].groupby("city",as_index=False).sum()
+        my_city = "New York"
 
-        return newData.loc[my_city,"real_price"]
+        year = self.big_data.loc[(self.big_data["year"]== my_year)]
+
+        year["city"]
+
+        year.loc[(year["city"] == my_city)]
+
+        cities = year.loc[(year["city"] == my_city)]
+
+        newData = cities.loc[:,["city","real_price"]].groupby("city",as_index=False).sum()
+
+        newData = newData["real_price"][0]
+
+        return newData
 
 
 
@@ -409,3 +414,16 @@ class Request():
 
         data = self.get_restaurant()
         return data["name"].to_list()
+
+
+    def get_list_city(self):
+
+        data = self.big_data
+        return data.loc[:,"city"].unique()
+
+    
+    def get_number_order_by_city_by_year(self,city,year):
+
+        data = self.big_data
+        data = data.loc[(data["city"] == "San Francisco") & (data["year"] == 2017)]
+        return data.count()["order_id"]
