@@ -15,6 +15,7 @@ class Merge():
         self.dataframes = dataframes
 
 
+
     def allergy_orderables(self) -> pd.DataFrame:
 
         data1 = self.allergy
@@ -65,6 +66,7 @@ class Merge():
 
         data1 = self.big_data
         data2 = self.restaurant
+
         self.big_data = pd.merge(data1,data2,how="outer",on="restaurant_id")       
 
         return self.big_data
