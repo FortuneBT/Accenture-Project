@@ -468,3 +468,13 @@ class Request():
 
         return df_dishes['real_price'].tail(10).to_list()
         
+
+    def get_number_order_by_city(self,city):
+
+        data = self.big_data
+        city_group = data.groupby("city",as_index=False)
+        new_data = city_group.get_group(city)
+        new_data = new_data.groupby("order_id",as_index=False)[["order_id","real_price","restaurant_name","year","month"]].value_counts()
+        new_data = new_data.loc[:,["order_id","restaurant_name"]].groupby("restaurant_name",as_index=False).value_counts()
+        new_data = new_data.groupby("restaurant_name",as_index=False).count().sort_values("count",ascending=False)
+        return new_data.sort_values("count",ascending=False).head(10)
