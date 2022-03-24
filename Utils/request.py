@@ -422,7 +422,7 @@ class Request():
         return data.loc[:,"city"].unique()
 
     
-    def get_number_order_by_city_by_year(self,city,year):
+    def get_number_order_by_city_by_year1(self,city,year):
 
         data = self.big_data
         data = data.loc[(data["city"] == city) & (data["year"] == year)]
@@ -450,7 +450,7 @@ class Request():
         return new_data
 
     
-    def get_number_order_by_city_by_year(self,year,city):
+    def get_number_order_by_city_by_year2(self,year,city):
 
         data = self.big_data
         year_group = data.groupby("year",as_index=False)

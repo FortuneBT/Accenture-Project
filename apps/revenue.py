@@ -9,7 +9,12 @@ import altair as alt
 
 def app():
 
-    request = Request()
+    @st.cache
+    def create_class():
+        request = Request()
+        return request
+
+    request = create_class()
 
     option = st.sidebar.selectbox('Data exploration', ('Over all revenue','Per year'))
 

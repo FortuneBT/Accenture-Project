@@ -7,11 +7,14 @@ import plotly.express as px
 
 def app():
 
-    request = Request()
+    @st.cache
+    def create_class():
+        request = Request()
+        return request
 
+
+    request = create_class()
     figure = Figure()
-
-
 
     years = pd.Series([2017,2018,2019])
     restaurants = pd.Series(request.get_list_restaurant())
@@ -25,9 +28,9 @@ def app():
     values_list = []
 
     for year in years:
-    
-        orders1 = request.get_number_order_by_city_by_year(san_francisco,year)
-        orders2 = request.get_number_order_by_city_by_year(new_york,year)
+        
+        orders1 = request.get_number_order_by_city_by_year1("San Francisco",year)
+        orders2 = request.get_number_order_by_city_by_year1(new_york,year)
         values_list.append([orders1, orders2])
 
     
@@ -39,12 +42,13 @@ def app():
 
     with part_one:
 
+        st.markdown("### Number of order per year")
+        
         col_part_one1,col_part_one2,col_part_one3 = st.columns(3)
 
         fig1 = figure.donut(labels,values_list[0])
         fig2 = figure.donut(labels,values_list[1])
         fig3 = figure.donut(labels,values_list[2])
-
 
         fig1.add_annotation(
             text="2017",
@@ -62,7 +66,7 @@ def app():
             }} </style> """, unsafe_allow_html=True)
 
         fig2.add_annotation(
-            title="Orders",
+            
             text="2018",
             showarrow=False,
             font_size=50)
@@ -82,10 +86,6 @@ def app():
 
     with part_two:
 
-        col_part_two1,col_part_two2= st.columns(2)
-
-        
-
         x='year'
         y='pop'
 
@@ -97,36 +97,48 @@ def app():
             xaxis=(dict(showgrid=False))
         )
 
-        col_part_two2.plotly_chart(fig5,use_container_width=True)
+        st.plotly_chart(fig5,use_container_width=True)
 
     with part_three:
+
+        col_part_three1,col_part_three2= st.columns(2)
 
         year = 2017
 
         city = "New York"
 
-        new_data = request.get_number_order_by_city_by_year(year,city)
+        col_part_three1.markdown("## New York")
 
-        fig4 = px.line(new_data, x="creation_date_order", y="count", color="city")
+        new_data = request.get_number_order_by_city_by_year2(year,city)
+
+        fig4 = px.bar(new_data, x="restaurant_name", y="count",color="restaurant_name")
 
         fig4.update_layout(
             plot_bgcolor="rgba(0,0,0,0)",
             xaxis=(dict(showgrid=False))
         )
-        col_part_two1.plotly_chart(fig4,use_container_width=True)
+
+        fig4.update_xaxes(visible=False, showticklabels=False)
+
+        col_part_three1.plotly_chart(fig4,use_container_width=True)
 
 
         year = 2017
 
         city = "San Francisco"
 
-        new_data = request.get_number_order_by_city_by_year(year,city)
+        col_part_three2.markdown("## San Francisco")
 
-        fig6 = px.line(new_data, x="creation_date_order", y="count", color="city")
+        new_data = request.get_number_order_by_city_by_year2(year,city)
+
+        fig6 = px.bar(new_data, x="restaurant_name", y="count", color="restaurant_name")
 
         fig6.update_layout(
             plot_bgcolor="rgba(0,0,0,0)",
             xaxis=(dict(showgrid=False))
         )
-        col_part_two1.plotly_chart(fig6,use_container_width=True)
+
+        fig6.update_xaxes(visible=False, showticklabels=False)
+
+        col_part_three2.plotly_chart(fig6,use_container_width=True)
         
