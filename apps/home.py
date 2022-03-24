@@ -17,7 +17,6 @@ def app():
     my_head_choice = my_head_choice.astype(int)
 
     labels = ['New York','San Fransisco']
-    request.
     values = [4500, 2500]
     
     
