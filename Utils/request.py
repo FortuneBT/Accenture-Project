@@ -425,5 +425,46 @@ class Request():
     def get_number_order_by_city_by_year(self,city,year):
 
         data = self.big_data
-        data = data.loc[(data["city"] == "San Francisco") & (data["year"] == 2017)]
+        data = data.loc[(data["city"] == city) & (data["year"] == year)]
         return data.count()["order_id"]
+
+    
+    def get_top_restaurant_order(self):
+
+        data = self.big_data
+        order_group = data[["order_id","real_price","restaurant_name"]].groupby("order_id",as_index=False)
+        restaurant = order_group.value_counts()[["restaurant_name","count"]].groupby("restaurant_name",as_index=False).sum().sort_values("count",ascending=False).head(10)
+        restaurant.rename(columns={"restaurant_name":"Restaurant"},inplace=True)
+        restaurant.rename(columns={"count":"Number of order"},inplace=True)
+
+        return restaurant
+
+    def get_number_order_by_restaurant(self):
+
+        data = self.big_data
+        data.drop(data.loc[(data["city"] == "unknown")].index,inplace=True)
+        city_group = data
+        new_data = city_group[["order_id","creation_date_order","month","year","city"]].groupby(["order_id","month","year","city"],as_index=False)["creation_date_order"].value_counts()
+        new_data = new_data.sort_values("creation_date_order",ascending=False)
+
+        return new_data
+
+    
+    def get_number_order_by_city_by_year(self,year,city):
+
+        data = self.big_data
+        year_group = data.groupby("year",as_index=False)
+        city_year_group = year_group.get_group(year).groupby("city")
+        new_data = city_year_group.get_group(city)
+        new_data = new_data.groupby("order_id",as_index=False)[["order_id","real_price","restaurant_name","year","month"]].value_counts()
+        new_data = new_data.loc[:,["order_id","restaurant_name"]].groupby("restaurant_name",as_index=False).value_counts()
+        new_data = new_data.groupby("restaurant_name",as_index=False).count().sort_values("count",ascending=False)
+        return new_data.sort_values("count",ascending=False).head(10)
+
+
+    def the_top_most_expensive_dishes_price(self):
+
+        df_dishes = self.least_expensive_dishes()
+
+        return df_dishes['real_price'].tail(10).to_list()
+        
