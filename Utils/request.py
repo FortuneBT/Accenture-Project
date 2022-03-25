@@ -421,6 +421,17 @@ class Request():
         data = self.big_data
         return data.loc[:,"city"].unique()
 
+
+    def get_list_street(self):
+
+        data = self.big_data
+        return data.loc[:,"street"].unique()
+
+    def get_list_year(self):
+
+        data = self.big_data
+        return data.loc[:,"year"].unique()
+
     
     def get_number_order_by_city_by_year1(self,city,year):
 
