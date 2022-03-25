@@ -47,10 +47,12 @@ app.layout = html.Div([
 
 @app.callback(Output("myfig1","figure"),Input("mydropdown","value"))
 def update_graph(city):
+    
+    if city == None:
+        city = "New York"
 
-    new_data = request.get_number_order_by_city_by_year2(2017,city)
-    print("CITY: ",city)
-    print(new_data)
+    new_data = request.get_number_order_by_city_by_year2(2019,city)
+        
     fig6 = px.bar(new_data, x="restaurant_name", y="count", color="restaurant_name")
 
     fig6.update_layout(
@@ -60,7 +62,7 @@ def update_graph(city):
 
     fig6.update_xaxes(visible=False, showticklabels=False)
 
-    return fig6               
+    return fig6                
         
 
 
