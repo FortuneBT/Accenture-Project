@@ -5,7 +5,7 @@ import pandas as pd
 from Utils.figure import Figure
 import plotly.express as px
 
-@st.cache
+@st.cashe
 def app():
 
     @st.cache
@@ -47,9 +47,9 @@ def app():
     part_five = st.container()
 
 
-    option = st.sidebar.selectbox('Data exploration', ('main','second'))
+    option = st.sidebar.selectbox('Data exploration', ('Over all','Per city'))
 
-    if option == "main":
+    if option == "Over all":
         with part_one:
 
             st.markdown("### Number of order per year")
@@ -125,7 +125,7 @@ def app():
             #part_two.markdown("<h2>Top 10 Restaurant</h2>", unsafe_allow_html=True)
             st.plotly_chart(fig5,use_container_width=True)
 
-    else:
+    if option == 'Per city':
 
         with part_three:
 

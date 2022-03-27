@@ -47,10 +47,10 @@ def app():
         st.header("The top 10 streets over all revenue")
         st.plotly_chart(fig3, use_container_width=False)
 
-        labels = request.restaurant['name'].head(10).to_list()
-        sizes = [15, 30, 45, 10, 15, 30, 45, 10, 45, 10]
+        labels = request.restaurant['name'].tail(10).to_list()
+        sizes = [5, 10, 15, 3, 5, 10, 15, 3, 15, 3]
 
-        st.header("The 10 leat expensive  dishes")
+        st.header("The 10 most expensive  dishes")
         fig4, ax1 = plt.subplots()
         
         ax1.pie(sizes, labels=labels, autopct='%1.1f%%',

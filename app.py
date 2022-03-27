@@ -15,7 +15,7 @@ part_one = st.container()
 
 
 # Add all your application here
-app.add_app("Home", home.app)
+app.add_app("Orders", home.app)
 app.add_app("Revenue", revenue.app)
 app.add_app("Description", description.app)
 app.add_app("Team", team.app)

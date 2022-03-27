@@ -21,9 +21,13 @@ Description:
 
 This project involvs data analyzing and visulization for Accenture resturants data base using streamlit. the data base is classified into csv files.
 
+Python version:
+- 3.8
 Usage:
 
-This project gives a clear image to the company of its recent data with the strength and weakness points so it can follow the profits target and improve its performance.
+- Clone the Git reposetory
+- Install the required libraries
+- finally type "streamlit run app.py"
 
 
 
