@@ -6,7 +6,7 @@ from Utils.figure import Figure
 import plotly.express as px
 
 
-
+@st.cache
 def create_fig1(names,values):
     #values=values_list[0]
     #names=labels
@@ -19,6 +19,7 @@ def create_fig1(names,values):
         fig1.update_layout(margin=dict(l=0, r=0, t=0, b=0))
         return fig1
 
+@st.cache
 def create_fig2(names,values):
     #values=values_list[1]
     #names=labels
@@ -44,6 +45,107 @@ def create_fig3(names,values):
     fig3.layout.update(showlegend=False)
     fig3.update_layout(margin=dict(l=0, r=0, t=0, b=0))
     return fig3
+
+
+@st.cache
+def create_fig5(request:Request):
+    restaurants = request.get_top_restaurant_order()
+    fig5 = px.bar(restaurants, x="Restaurant", y="Number of order", color="Number of order")
+    fig5.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        xaxis=(dict(showgrid=False)),
+        title={
+            'xanchor': 'center',
+            "text" : "Top 10 Restaurant"
+            }
+    )
+    fig5['layout']['title']['font'] = dict(size=20)
+    return fig5
+
+
+@st.cache
+def create_fig6(request:Request):
+    year = 2017
+    city = "San Francisco"
+    new_data = request.get_number_order_by_city_by_year2(year,city)
+    fig6 = px.bar(new_data, x="restaurant_name", y="count", color="restaurant_name")
+    fig6.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        xaxis=(dict(showgrid=False))
+    )
+    fig6.update_xaxes(visible=False, showticklabels=False)
+    return fig6
+
+
+@st.cache
+def create_fig4(request:Request):
+    year = 2017
+    city = "New York"
+    new_data = request.get_number_order_by_city_by_year2(year,city)
+    fig4 = px.bar(new_data, x="restaurant_name", y="count",color="restaurant_name")
+    fig4.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        xaxis=(dict(showgrid=False))
+    )
+    fig4.update_xaxes(visible=False, showticklabels=False)
+    return fig4
+
+@st.cache
+def create_fig7(request:Request):
+    year = 2018
+    city = "San Francisco"
+    new_data = request.get_number_order_by_city_by_year2(year,city)
+    fig7 = px.bar(new_data, x="restaurant_name", y="count", color="restaurant_name")
+    fig7.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        xaxis=(dict(showgrid=False))
+    )
+    fig7.update_xaxes(visible=False, showticklabels=False)
+    return fig7
+
+
+@st.cache
+def create_fig8(request:Request):
+    year = 2018
+    city = "New York"
+    new_data = request.get_number_order_by_city_by_year2(year,city)
+    fig8 = px.bar(new_data, x="restaurant_name", y="count",color="restaurant_name")
+    fig8.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        xaxis=(dict(showgrid=False))
+    )
+    fig8.update_xaxes(visible=False, showticklabels=False)
+    return fig8
+
+
+
+@st.cache
+def create_fig9(request:Request):
+    year = 2019
+    city = "San Francisco"
+    new_data = request.get_number_order_by_city_by_year2(year,city)
+    fig9 = px.bar(new_data, x="restaurant_name", y="count", color="restaurant_name")
+    fig9.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        xaxis=(dict(showgrid=False))
+    )
+    fig9.update_xaxes(visible=False, showticklabels=False)
+    return fig9
+
+
+@st.cache
+def create_fig10(request:Request):
+    year = 2019
+    city = "New York"
+    new_data = request.get_number_order_by_city_by_year2(year,city)
+    fig10 = px.bar(new_data, x="restaurant_name", y="count",color="restaurant_name")
+    fig10.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        xaxis=(dict(showgrid=False))
+    )
+    fig10.update_xaxes(visible=False, showticklabels=False)
+    return fig10
+
 
 
 def app():
@@ -96,186 +198,50 @@ def app():
 
     if option == "main":
         with part_one:
-
             st.markdown("### Number of order per year")
-            
             col_part_one1,col_part_one2,col_part_one3 = st.columns(3)
-
-
-            #st.metric("Total Order", value, delta=None, delta_color="normal")
-            #fig1 = figure.donut(labels,values_list[0])
-            
-            
-            
-        
-
             col_part_one1.plotly_chart(fig1,use_container_width=True)
             col_part_one2.plotly_chart(fig2,use_container_width=True)
-            col_part_one3.plotly_chart(fig3,use_container_width=True)
-            
-
-            #col_part_one1.metric("Total 2017", orders_2017, delta=None, delta_color="normal")
-            #col_part_one1.markdown(f"## {orders_2017}")
+            col_part_one3.plotly_chart(fig3,use_container_width=True)  
             col_part_one1.markdown(f"<h2 style='text-align: center; color: white;'>Total : {orders_2017:,}</h2>", unsafe_allow_html=True)
             col_part_one2.markdown(f"<h2 style='text-align: center; color: white;'>Total : {orders_2018:,}</h2>", unsafe_allow_html=True)
             col_part_one3.markdown(f"<h2 style='text-align: center; color: white;'>Total : {orders_2019:,}</h2>", unsafe_allow_html=True)
 
-
         with part_two:
 
-            x='year'
-            y='pop'
-
-            restaurants = request.get_top_restaurant_order()
-            fig5 = px.bar(restaurants, x="Restaurant", y="Number of order", color="Number of order")
-        
-            fig5.update_layout(
-                plot_bgcolor="rgba(0,0,0,0)",
-                xaxis=(dict(showgrid=False)),
-                title={
-                    'xanchor': 'center',
-                    "text" : "Top 10 Restaurant"
-                    }
-            )
-            fig5['layout']['title']['font'] = dict(size=20)
-            #st.markdown(f"<h2 style='text-align: center; color: yellow;'>Total : Top 10 Restaurant</h2>", unsafe_allow_html=True)
-            #part_two.markdown("<h2>Top 10 Restaurant</h2>", unsafe_allow_html=True)
+            fig5 = create_fig5(request)
             st.plotly_chart(fig5,use_container_width=True)
-
     else:
 
         with part_three:
 
             col_part_three1,col_part_three2= st.columns(2)
-
-            year = 2017
-
-            city = "New York"
-
             col_part_three1.markdown("## New York 2017")
-
-            new_data = request.get_number_order_by_city_by_year2(year,city)
-
-            fig4 = px.bar(new_data, x="restaurant_name", y="count",color="restaurant_name")
-
-            fig4.update_layout(
-                plot_bgcolor="rgba(0,0,0,0)",
-                xaxis=(dict(showgrid=False))
-            )
-
-            fig4.update_xaxes(visible=False, showticklabels=False)
-
+            fig4 = create_fig4(request)
             col_part_three1.plotly_chart(fig4,use_container_width=True)
-
-
-            year = 2017
-
-            city = "San Francisco"
-
             col_part_three2.markdown("## San Francisco 2017")
-
-            new_data = request.get_number_order_by_city_by_year2(year,city)
-
-            fig6 = px.bar(new_data, x="restaurant_name", y="count", color="restaurant_name")
-
-            fig6.update_layout(
-                plot_bgcolor="rgba(0,0,0,0)",
-                xaxis=(dict(showgrid=False))
-            )
-
-            fig6.update_xaxes(visible=False, showticklabels=False)
-
+            fig6 = create_fig6(request)
             col_part_three2.plotly_chart(fig6,use_container_width=True)
             
-
         with part_four:
 
             col_part_four1,col_part_four2= st.columns(2)
-
-            year = 2018
-
-            city = "New York"
-
             col_part_four1.markdown("## New York 2018")
-
-            new_data = request.get_number_order_by_city_by_year2(year,city)
-
-            fig4 = px.bar(new_data, x="restaurant_name", y="count",color="restaurant_name")
-
-            fig4.update_layout(
-                plot_bgcolor="rgba(0,0,0,0)",
-                xaxis=(dict(showgrid=False))
-            )
-
-            fig4.update_xaxes(visible=False, showticklabels=False)
-
-            col_part_four1.plotly_chart(fig4,use_container_width=True)
-
-
-            year = 2018
-
-            city = "San Francisco"
-
+            fig7 = create_fig7(request)
+            col_part_four1.plotly_chart(fig7,use_container_width=True)
             col_part_four2.markdown("## San Francisco 2018")
-
-            new_data = request.get_number_order_by_city_by_year2(year,city)
-
-            fig6 = px.bar(new_data, x="restaurant_name", y="count", color="restaurant_name")
-
-            fig6.update_layout(
-                plot_bgcolor="rgba(0,0,0,0)",
-                xaxis=(dict(showgrid=False))
-            )
-
-            fig6.update_xaxes(visible=False, showticklabels=False)
-
-            col_part_four2.plotly_chart(fig6,use_container_width=True)
+            fig8 = create_fig8(request)
+            col_part_four2.plotly_chart(fig8,use_container_width=True)
             
-
-
-        
         with part_five:
 
             col_part_five1,col_part_five2= st.columns(2)
-
-            year = 2019
-
-            city = "New York"
-
-            col_part_five1.markdown("## New York 2019")
-
-            new_data = request.get_number_order_by_city_by_year2(year,city)
-
-            fig4 = px.bar(new_data, x="restaurant_name", y="count",color="restaurant_name")
-
-            fig4.update_layout(
-                plot_bgcolor="rgba(0,0,0,0)",
-                xaxis=(dict(showgrid=False))
-            )
-
-            fig4.update_xaxes(visible=False, showticklabels=False)
-
-            col_part_five1.plotly_chart(fig4,use_container_width=True)
-
-
-            year = 2019
-
-            city = "San Francisco"
-
-            col_part_five2.markdown("## San Francisco 2019")
-
-            new_data = request.get_number_order_by_city_by_year2(year,city)
-
-            fig6 = px.bar(new_data, x="restaurant_name", y="count", color="restaurant_name")
-
-            fig6.update_layout(
-                plot_bgcolor="rgba(0,0,0,0)",
-                xaxis=(dict(showgrid=False))
-            )
-
-            fig6.update_xaxes(visible=False, showticklabels=False)
-
-            col_part_five2.plotly_chart(fig6,use_container_width=True)
+            col_part_five1.markdown("## New York 2018")
+            fig9 = create_fig9(request)
+            col_part_five1.plotly_chart(fig9,use_container_width=True)
+            col_part_five2.markdown("## San Francisco 2018")
+            fig10 = create_fig10(request)
+            col_part_five2.plotly_chart(fig10,use_container_width=True)
             
 
             padding = 0
