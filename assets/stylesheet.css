@@ -15,10 +15,13 @@ h2 {
 
 body {
     background-color:#00182C;
+    width: 90%;
+    height:70%;
 } 
 
 #dash {
     width: 90%;
+    height:80%;
     margin:0 auto;
 }
 
@@ -45,7 +48,6 @@ body {
 
 .Div4 {
     display: flex;
-    justify-content: space-between;
     padding:0;
 }
 
@@ -68,6 +70,12 @@ body {
     padding: 1%;
     margin:2%;
     border-radius:10px;
+}
+
+#top-blockright {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 P .selectionChange {

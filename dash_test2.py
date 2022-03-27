@@ -49,9 +49,15 @@ fig1.update_layout({"plot_bgcolor":"rgba(0,0,0,0)","paper_bgcolor":"rgba(0,0,0,0
 fig2 = px.bar(df_top_10_restaurant, x="Restaurant", y="Number of order", color="Number of order")
 fig2.update_layout(margin=dict(l=30, r=30, t=20, b=20))
 
-fig3 = go.Figure()
-#fig3.add_trace(go.Bar(x=years,y="",marker_color='rgb(55, 83, 109)'))
-#fig3.add_trace(go.Bar(x=years,y="",marker_color='rgb(26, 118, 255)'))
+fig3 = px.bar(df_top_10_restaurant, x="Restaurant", y="Number of order", color="Number of order")
+fig3.update_layout(margin=dict(l=50, r=50, t=50, b=50))
+
+fig4 = go.Figure()
+#fig4.add_trace(go.Bar(x=years,y="",marker_color='rgb(55, 83, 109)'))
+#fig4.add_trace(go.Bar(x=years,y="",marker_color='rgb(26, 118, 255)'))
+
+fig5 = px.bar(df_top_10_restaurant, x="Restaurant", y="Number of order", color="Number of order")
+fig5.update_layout(margin=dict(l=30, r=30, t=20, b=20))
 
 
 app.layout = html.Bdo(html.Div([
@@ -103,10 +109,14 @@ app.layout = html.Bdo(html.Div([
             html.Div([
                 html.Div(
                     dcc.Graph(id="myfig2",figure=fig2,style={"width":"500px","height":"200px","margin-top":"2%"})
-                ),#top left from the part above from the right part
-                html.Div()#top right from the part above from the right part 
-            ]),
-            html.Div()#bottom from the right part 
+                ,className="top_div4"),#top left from the part above from the right part
+                html.Div(
+                    dcc.Graph(id="myfig3",figure=fig3,style={"width":"500px","height":"200px","margin-top":"2%"})
+                )#top right from the part above from the right part 
+            ],id="top-blockright",className="top_div4"),#top from the right part
+            html.Div(
+                dcc.Graph(id="myfig5",figure=fig5,style={"width":"1000px","height":"200px","margin-top":"2%"})
+            )#bottom from the right part 
         ],id="blockright")
     ]
     ,className="Div4")# DIV 4

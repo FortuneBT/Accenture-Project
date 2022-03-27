@@ -11,6 +11,7 @@ class Figure():
         
         my_layout = go.Layout({"showlegend": False})
 
+
         # Use `hole` to create a donut-like pie chart
         fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.5)],layout=my_layout)
 

@@ -542,7 +542,7 @@ class Request():
         return data.value_counts("street").count()
 
 
-    def get_total_revenue_cities(self):
+    def get_total_revenue_cities        (self):
 
         #for 2017,2018,2019
         data = self.big_data
@@ -567,5 +567,18 @@ class Request():
         data = data.rename(columns={"count":"Total orders"})
 
         return data
+
+    def get_total_orders_by_years(self,year):
+
+        data = self.big_data
+
+        year_group = data.groupby("year",as_index=False)
+        new_data = year_group.get_group(year)
+        new_data = new_data.groupby("order_id",as_index=False)[["order_id","real_price","restaurant_name","year","month"]].value_counts()
+        new_data = new_data.loc[:,["order_id","restaurant_name"]].groupby("restaurant_name",as_index=False).value_counts()
+        new_data = new_data.groupby("restaurant_name",as_index=False).count().sort_values("count",ascending=False)
+        new_data = new_data.sort_values("count",ascending=False)
+        
+        return new_data["count"].sum()
 
     
