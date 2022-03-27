@@ -7,7 +7,7 @@ import plotly.express as px
 
 
 @st.cache
-def create_fig1(names,values):
+def create_fig1(names,values,position):
     #values=values_list[0]
     #names=labels
         fig1 = px.pie(names=names,values=values,hole=0.6,height=200)
@@ -189,8 +189,8 @@ def app():
     part_five = st.container()
 
 
-    fig1 = create_fig3(labels,values=values_list[0])
-    fig2 = create_fig3(labels,values=values_list[1])
+    fig1 = create_fig1(labels,values=values_list[0])
+    fig2 = create_fig2(labels,values=values_list[1])
     fig3 = create_fig3(labels,values=values_list[2])
 
     option = st.sidebar.selectbox('Data exploration', ('main','second'))
