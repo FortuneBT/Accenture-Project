@@ -1,3 +1,80 @@
-h1 {
-    font-size: 4rem;
+* {
+    margin:0;
+    padding:0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+
+h2 {
+    font-size: 2rem; 
+    text-align: center;
+    padding:1%;
+    color:white;
+
+}
+
+body {
+    background-color:#00182C;
+} 
+
+#dash {
+    width: 90%;
+    margin:0 auto;
+}
+
+.squareDiv3 {
+    background-color:#192F41;
+    padding-top: 0px;
+    padding:3% 6%;
+    border-radius: 10px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    color:white;
+}
+
+.squareDiv3 P {
+    text-align: center;
+}
+
+.Div3 {
+    display: flex;
+    justify-content: space-around;
+    padding:0;
+}
+
+.Div4 {
+    display: flex;
+    justify-content: space-between;
+    padding:0;
+}
+
+#blockleft {
+    background-color:#192F41;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 1%;
+    margin:2%;
+    border-radius:10px;
+    bottom: 2%;
+}
+
+#blockright {
+    background-color:#192F41;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 1%;
+    margin:2%;
+    border-radius:10px;
+}
+
+P .selectionChange {
+    color:red;
+}
+
+.squareNumber {
+    font-size: 2.5rem;
+    margin:5px;
 }

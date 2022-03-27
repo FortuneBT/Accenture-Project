@@ -19,6 +19,10 @@ class Request():
 
         self.big_data = server.read_csv_merging()
 
+        data = self.big_data
+
+        self.big_data = data.drop(data.loc[(data["city"] == "unknown")].index)
+
         self.dataframes = dataframes
 
 
@@ -450,6 +454,29 @@ class Request():
 
         return restaurant
 
+    def get_number_order(self,year:int=None,city:str=None,restaurant:str=None) -> int:
+
+        data = self.big_data
+
+        if restaurant == None and year == None and city == None:
+            order_group = data
+        else:
+            if restaurant != None and year != None and year != None:  
+                order_group = data.groupby(["year","city","restaurant_name"],as_index=False)
+                order_group = order_group.get_group((year,city,restaurant))
+            elif city != None and year != None and restaurant == None:
+                order_group = data.groupby(["year","city"],as_index=False)
+                order_group = order_group.get_group((year,city))
+            elif year != None and city == None and restaurant == None:
+                order_group = data.groupby(["year"],as_index=False)
+                order_group = order_group.get_group(year)
+
+        order_group = order_group[["order_id","restaurant_name","city","year","real_price",]]
+
+        return order_group.value_counts("order_id").count()
+
+
+
     def get_number_order_by_restaurant(self):
 
         data = self.big_data
@@ -462,7 +489,7 @@ class Request():
 
     
     def get_number_order_by_city_by_year2(self,year,city):
-
+        #top 10
         data = self.big_data
         year_group = data.groupby("year",as_index=False)
         city_year_group = year_group.get_group(year).groupby("city")
@@ -480,7 +507,7 @@ class Request():
         return df_dishes['real_price'].tail(10).to_list()
         
 
-    def get_number_order_by_city(self,city):
+    def get_total_number_order_by_city(self,city):
 
         data = self.big_data
         city_group = data.groupby("city",as_index=False)
@@ -488,4 +515,57 @@ class Request():
         new_data = new_data.groupby("order_id",as_index=False)[["order_id","real_price","restaurant_name","year","month"]].value_counts()
         new_data = new_data.loc[:,["order_id","restaurant_name"]].groupby("restaurant_name",as_index=False).value_counts()
         new_data = new_data.groupby("restaurant_name",as_index=False).count().sort_values("count",ascending=False)
-        return new_data.sort_values("count",ascending=False).head(10)
+        new_data = new_data.sort_values("count",ascending=False)
+        return new_data["count"].sum()
+
+
+    def get_total_revenue(self):
+
+        data = self.big_data
+
+        data = data[["order_id","real_price"]]
+
+        return round(data.groupby("order_id").sum()["real_price"].sum())
+
+
+    def get_total_number_of_restaurant(self):
+
+        data = self.restaurant
+
+        return data.value_counts("name").count()
+
+
+    def get_total_number_of_street(self):
+
+        data = self.big_data
+
+        return data.value_counts("street").count()
+
+
+    def get_total_revenue_cities(self):
+
+        #for 2017,2018,2019
+        data = self.big_data
+        order_group = data.groupby("order_id",as_index=False)
+        data = order_group[["order_id","city","real_price"]].value_counts()
+        data = data.groupby("city",as_index=False).sum()
+        data.drop("order_id",axis=1,inplace=True)
+        data.drop("count",axis=1,inplace=True)
+        data = data.rename(columns={"real_price":"revenue"})
+
+        return data
+
+    
+    def get_total_orders_cities(self):
+        #for 2017,2018,2019
+        data = self.big_data
+
+        order_group = data.groupby("order_id",as_index=False)
+        data = order_group[["order_id","city"]].value_counts()
+        data = data.groupby("city",as_index=False).sum()
+        data.drop("order_id",axis=1,inplace=True)
+        data = data.rename(columns={"count":"Total orders"})
+
+        return data
+
+    
