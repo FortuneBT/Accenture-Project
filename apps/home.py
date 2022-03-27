@@ -5,6 +5,47 @@ import pandas as pd
 from Utils.figure import Figure
 import plotly.express as px
 
+
+
+def create_fig1(names,values):
+    #values=values_list[0]
+    #names=labels
+        fig1 = px.pie(names=names,values=values,hole=0.6,height=200)
+        fig1.add_annotation(
+            text="2017",
+            showarrow=False,
+            font_size=50)
+        fig1.layout.update(showlegend=False)
+        fig1.update_layout(margin=dict(l=0, r=0, t=0, b=0))
+        return fig1
+
+def create_fig2(names,values):
+    #values=values_list[1]
+    #names=labels
+    fig2 = px.pie(names=names,values=values,hole=0.6,height=200)
+    fig2.add_annotation(
+        text="2018",
+        showarrow=False,
+        font_size=50)
+    fig2.layout.update(showlegend=False)
+    fig2.update_layout(margin=dict(l=0, r=0, t=0, b=0))
+    return fig2
+
+
+@st.cache
+def create_fig3(names,values):
+    #values=values_list[2]
+    #names=labels
+    fig3 = px.pie(names=names,values=values,hole=0.6,height=200)
+    fig3.add_annotation(
+        text="2019",
+        showarrow=False,
+        font_size=50)
+    fig3.layout.update(showlegend=False)
+    fig3.update_layout(margin=dict(l=0, r=0, t=0, b=0))
+    return fig3
+
+
 def app():
 
     @st.cache
@@ -12,9 +53,9 @@ def app():
         request = Request()
         return request
 
-
+    
     request = create_class()
-    figure = Figure()
+
 
     years = pd.Series([2017,2018,2019])
     restaurants = pd.Series(request.get_list_restaurant())
@@ -46,7 +87,12 @@ def app():
     part_five = st.container()
 
 
+    fig1 = create_fig3(labels,values=values_list[0])
+    fig2 = create_fig3(labels,values=values_list[1])
+    fig3 = create_fig3(labels,values=values_list[2])
+
     option = st.sidebar.selectbox('Data exploration', ('main','second'))
+
 
     if option == "main":
         with part_one:
@@ -58,38 +104,10 @@ def app():
 
             #st.metric("Total Order", value, delta=None, delta_color="normal")
             #fig1 = figure.donut(labels,values_list[0])
-            fig1 = px.pie(names=labels,values=values_list[0],hole=0.6,height=200)
-            fig2 = px.pie(names=labels,values=values_list[1],hole=0.6,height=200)
-            fig3 = px.pie(names=labels,values=values_list[2],hole=0.6,height=200)
-    
-
-            fig1.add_annotation(
-                text="2017",
-                showarrow=False,
-                font_size=50)
-
-
-            fig2.add_annotation(
-                
-                text="2018",
-                showarrow=False,
-                font_size=50)
             
-
-            fig3.add_annotation(
-                text="2019",
-                showarrow=False,
-                font_size=50)
-
-
             
-            fig1.layout.update(showlegend=False)
-            fig2.layout.update(showlegend=False)
-            fig3.layout.update(showlegend=False)
-
-            fig1.update_layout(margin=dict(l=0, r=0, t=0, b=0))
-            fig2.update_layout(margin=dict(l=0, r=0, t=0, b=0))
-            fig3.update_layout(margin=dict(l=0, r=0, t=0, b=0))
+            
+        
 
             col_part_one1.plotly_chart(fig1,use_container_width=True)
             col_part_one2.plotly_chart(fig2,use_container_width=True)
